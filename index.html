@@ -1,0 +1,18 @@
+<script>
+function isHankaku(str){
+  str = (str==null)?"":str;
+  if(str.match(/^[\x20-\x7e]*$/)){
+    return true;
+  }else{
+    return false;
+  }
+}
+function test(){
+  var tx = document.getElementById("txt1").value;
+  document.getElementById("area1").innerText = isHankaku(tx)?"半角文字(ASCII文字)のみです":"半角文字(ASCII文字)ではない文字が含まれます";
+}
+</script>
+
+<input type="text" id="txt1" style="width:250px;margin:5px;">
+<input type="button" value=" 半角(ASCII)文字チェック " onclick="test();" style="width:230px;margin:5px;">
+<div id="area1" class="result"></div>
