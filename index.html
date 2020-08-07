@@ -1,18 +1,68 @@
-<script>
-function isHankaku(str){
-  str = (str==null)?"":str;
-  if(str.match(/^[\x20-\x7e]*$/)){
-    return true;
-  }else{
-    return false;
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>カロリーメイト msg19 変換ツール</title>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<style>
+  #changeBinary .error {
+    color: red;
   }
-}
-function test(){
-  var tx = document.getElementById("txt1").value;
-  document.getElementById("area1").innerText = isHankaku(tx)?"半角文字(ASCII文字)のみです":"半角文字(ASCII文字)ではない文字が含まれます";
-}
-</script>
+</style>
+</head>
+<body>
+  <h1>カロリーメイト msg19 変換ツール</h1>
+  <div id="changeBinary">
+    入力<br>
+    <input type="text" v-model="message" size="40" maxlength="24"><br>
+    <div class="error" v-if="error.notAscii">半角文字(ASCII文字)ではない文字が含まれます。</div>
+    結果<br>
+    <div></div><textarea id="target" rows="10" cols="40" v-text="binaryCode"></textarea><br></div>
 
-<input type="text" id="txt1" style="width:250px;margin:5px;">
-<input type="button" value=" 半角(ASCII)文字チェック " onclick="test();" style="width:230px;margin:5px;">
-<div id="area1" class="result"></div>
+    <button onclick="window.open('https://twitter.com/share?url=' + '&text=' + encodeURI(document.getElementById( 'target' ).value) + '&hashtags=BinaryConvert', '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');">Twitterでシェア</button>
+  </div>
+  <script>
+  var changeBinary = new Vue({
+    el: '#changeBinary',
+    watch: {
+      message: function(newVal, oldVal) {
+        newVal = (newVal == null)?"" : newVal;
+        if(newVal.match(/^[\x20-\x7e]*$/)){
+          this.error.notAscii = false;
+        }else{
+          this.error.notAscii = true;
+        }
+      }
+    },
+    computed: {
+      binaryCode: function () {
+        if (this.error.notAscii == false) {
+          let returnCode = this.message + "を変換しました。\n";
+          let breackCount = 0;
+
+          for (let step = 0; step < this.message.length ; step++) {
+            returnCode += ( '000' + this.message.charCodeAt(step).toString(2) ).slice( -8 );
+            if (step < (this.message.length - 1)) {
+              returnCode += ' ';
+            }
+            breackCount++;
+            if (breackCount > 2) {
+              returnCode += "\n";
+              breackCount = 0;
+            }
+          }
+          return returnCode;
+        }
+      },
+    },
+    data: {
+      message: 'BALANCED FOR HUMAN.',
+      error: {
+        notAscii: false
+      }
+    }
+  })
+  </script>
+</body>
+</html>
