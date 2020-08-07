@@ -10,6 +10,8 @@
     color: red;
   }
 </style>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-34475950-6"></script>
 <script>
@@ -21,23 +23,37 @@
 </script>
 </head>
 <body>
-  <h3>カロリーメイト msg19 変換ツール</h3>
-  <h4>説明</h3>
-<p><a href="https://www.otsuka.co.jp/cmt/to_programmer/"  target="_blank" rel="noopener">カロリーメイトから、すべてのうちこむ人へ。プログラミング言語で書かれたメッセージを公開中。</a><br>
-こちらのプロモーションサイトに各種プログラム言語のメッセージがありました。<br>
-<a href="https://www.otsuka.co.jp/cmt/to_programmer/share/msg19/" target="_blank" rel="noopener">その中でmsg19は、私が好きなバイナリーコードでした。</a><br>
-このサイトはこのバイナリーコードを簡単に生成します。</p>
-  <div id="changeBinary">
-    入力<br>
-    <input type="text" v-model="message" size="40" maxlength="20"><br>
-    <div class="error" v-if="error.notAscii">半角文字(ASCII文字)ではない文字が含まれます。</div>
-    結果<br>
-    <div></div><textarea id="target" rows="10" cols="40" v-text="binaryCode"></textarea><br></div>
-
-    <button onclick="window.open('https://twitter.com/share?url=' + location.href + '&text=' + encodeURI(document.getElementById( 'target' ).value) + '&hashtags=BinaryConvert', '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');">Twitterでシェア</button>
+  <div class="container">
+    <!-- Content here -->
+    <div class="row">
+      <div class="card" >
+        <div class="card-body">
+          <h5 class="card-title">カロリーメイト msg19 変換ツール</h5>
+          <h6 class="card-subtitle mb-2 text-muted">説明</h6>
+          <p class="card-text"><a href="https://www.otsuka.co.jp/cmt/to_programmer/"  target="_blank" rel="noopener">カロリーメイトから、すべてのうちこむ人へ。プログラミング言語で書かれたメッセージを公開中。</a><br>こちらのプロモーションサイトに各種プログラム言語のメッセージがありました。<br><a href="https://www.otsuka.co.jp/cmt/to_programmer/share/msg19/" target="_blank" rel="noopener">その中でmsg19は、私が好きなバイナリーコードでした。</a><br>このサイトはこのバイナリーコードを簡単に生成します。</p>
+        </div>
+      </div>
+      <div id="changeBinary">
+        <div class="mb-3">
+          <label for="inputCharacter" class="form-label">入力</label>
+          <input v-model="message" id="inputCharacter" class="form-control" type="text" placeholder="変換元文字列を入力してください">
+          <div class="error" v-if="error.notAscii">半角文字(ASCII文字)ではない文字が含まれます。</div>
+          <div class="error" v-if="error.longCharacters">21文字以上は変換後ツイート文字数を超える可能性があります。</div>
+        </div>
+        <div class="mb-3">
+          <label for="convertCharacter" class="form-label">結果</label>
+          <textarea class="form-control" id="convertCharacter" rows="10" v-text="binaryCode"></textarea></div>
+        </div>
+        <div class="mb-3">
+          <button class="btn btn-primary btn-block" onclick="window.open('https://twitter.com/share?url=' + location.href + '&text=' + encodeURI(document.getElementById( 'convertCharacter' ).value) + '&hashtags=BinaryConvert', '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');">Twitterでシェア</button>
+        </div>
+        <div class="mb-3">
+          ご要望は <a href="https://twitter.com/sapi_kawahara" target="_blank" rel="noopener">@sapi_kawahara</a> までお願います。
+        </div>
+      </div>
+    </div>
   </div>
-  <div>ご要望は <a href="https://twitter.com/sapi_kawahara" target="_blank" rel="noopener">@sapi_kawahara</a> までお願います。</div>
-  <script>
+<script>
   var changeBinary = new Vue({
     el: '#changeBinary',
     watch: {
@@ -45,6 +61,11 @@
         newVal = (newVal == null)?"" : newVal;
         if(newVal.match(/^[\x20-\x7e]*$/)){
           this.error.notAscii = false;
+          if (newVal.length > 20) {
+            this.error.longCharacters = true;
+          } else {
+            this.error.longCharacters = false;
+          }
         }else{
           this.error.notAscii = true;
         }
@@ -74,7 +95,8 @@
     data: {
       message: 'BALANCED FOR HUMAN.',
       error: {
-        notAscii: false
+        notAscii: false,
+        longCharacters: false
       }
     }
   })
