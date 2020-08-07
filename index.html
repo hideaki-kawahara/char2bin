@@ -15,7 +15,7 @@
   <h1>カロリーメイト msg19 変換ツール</h1>
   <div id="changeBinary">
     入力<br>
-    <input type="text" v-model="message" size="40" maxlength="24"><br>
+    <input type="text" v-model="message" size="40" maxlength="22"><br>
     <div class="error" v-if="error.notAscii">半角文字(ASCII文字)ではない文字が含まれます。</div>
     結果<br>
     <div></div><textarea id="target" rows="10" cols="40" v-text="binaryCode"></textarea><br></div>
