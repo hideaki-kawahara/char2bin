@@ -22,6 +22,11 @@
 </head>
 <body>
   <h3>カロリーメイト msg19 変換ツール</h3>
+  <h4>説明</h3>
+<p><a href="https://www.otsuka.co.jp/cmt/to_programmer/"  target="_blank" rel="noopener">カロリーメイトから、すべてのうちこむ人へ。プログラミング言語で書かれたメッセージを公開中。</a><br>
+こちらのプロモーションサイトに各種プログラム言語のメッセージがありました。<br>
+<a href="https://www.otsuka.co.jp/cmt/to_programmer/share/msg19/" target="_blank" rel="noopener">その中でmsg19は、私が好きなバイナリーコードでした。</a><br>
+このサイトはこのバイナリーコードを簡単に生成します。</p>
   <div id="changeBinary">
     入力<br>
     <input type="text" v-model="message" size="40" maxlength="20"><br>
@@ -31,6 +36,7 @@
 
     <button onclick="window.open('https://twitter.com/share?url=' + '&text=' + encodeURI(document.getElementById( 'target' ).value) + '&hashtags=BinaryConvert', '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');">Twitterでシェア</button>
   </div>
+  <div>ご要望は <a href="https://twitter.com/sapi_kawahara" target="_blank" rel="noopener">@sapi_kawahara</a> までお願います。</div>
   <script>
   var changeBinary = new Vue({
     el: '#changeBinary',
